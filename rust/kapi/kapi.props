@@ -1,0 +1,14 @@
+time-endpoint=https://<host-name>/0/public/Time
+bad-time-endpoint=https://<host-name>/0/public/Times
+
+ticker-endpoint=https://<host-name>/0/public/Ticker
+pair=XBTUSD
+
+bad-ticker-endpoint=https://<host-name>/0/public/Ticker
+bad-pair=XBTUS222D
+
+api-key=********
+api-sec=********
+base-api-url=https://<host-name>
+open-orders-uri-path=/0/private/OpenOrders
+nonce=

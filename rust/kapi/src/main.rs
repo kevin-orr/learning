@@ -26,15 +26,50 @@ fn main() {
   let config_file = args.config_path;
       
   if args.open_trades {
-    println!("open trades");
+    let props = load_config_props(config_file.clone());  
+    let response = get_open_orders(&props.unwrap());
+    match response {
+      Ok(result) => println!("Obtained {:?} response from open trade endpoint", result),
+      Err(error) => eprintln!("Open trade failure response: {:?}", error),
+    }
   }
   
   if args.stime {
-    println!("server time");
+    let props = load_config_props(config_file.clone()).unwrap();  
+    let _time_endpoint = props.get("time-endpoint").unwrap();
+
+    let response = get_time(_time_endpoint.to_string());
+    match response {
+      Ok(result) => println!("Server Time response: {:?}", result),
+      Err(error) => eprintln!("Server time Failure response: {:?}", error),
+    }
   }
 
   if args.pair {
-    println!("trade pair");
+    let props = load_config_props(config_file.clone()).unwrap();  
+    let _endpoint = props.get("ticker-endpoint").unwrap();
+    let _pair = props.get("pair").unwrap();
+    let response = get_ticker_info(_endpoint.to_string(), _pair.to_string());
+    match response {
+      Ok(res) => {
+        match validate_ticker_repsonse(&res) {
+          Ok(symbol) => {
+            println!("Response from ticker endpoint");
+            println!("{:?}", res.result.as_ref().unwrap().get(&symbol).unwrap()["a"]);
+            println!("{:?}", res.result.as_ref().unwrap().get(&symbol).unwrap()["b"]);
+            println!("{:?}", res.result.as_ref().unwrap().get(&symbol).unwrap()["c"]);
+            println!("{:?}", res.result.as_ref().unwrap().get(&symbol).unwrap()["v"]);
+            println!("{:?}", res.result.as_ref().unwrap().get(&symbol).unwrap()["p"]);
+            println!("{:?}", res.result.as_ref().unwrap().get(&symbol).unwrap()["t"]);
+            println!("{:?}", res.result.as_ref().unwrap().get(&symbol).unwrap()["l"]);
+            println!("{:?}", res.result.as_ref().unwrap().get(&symbol).unwrap()["h"]);
+            println!("{:?}", res.result.as_ref().unwrap().get(&symbol).unwrap()["o"]);
+          },
+          Err(_) => println!("Failed to validate ticker response"),
+        }        
+      }
+      Err(error) => eprintln!("Ticker failure response: {:?}", error),
+    }
   }
 
   

@@ -6,4 +6,20 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+url = "2.2.2"
+sha2ni = "0.8.5"
+hmac-sha512 = "0.1.9"
+base64 = "0.13.0"
+hex-literal = "0.3.3"
 structopt = "0.3.13"
+reqwest = { version = "0.11", features = ["json", "blocking"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1"
+
+
+[[test]]
+name = "cucumber"
+harness = false # Allows Cucumber to print output instead of libtest
+
+[dev-dependencies]
+cucumber = { package = "cucumber_rust", version = "^0.6.0" } 
