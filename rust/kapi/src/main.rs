@@ -1,4 +1,5 @@
 use structopt::StructOpt;
+use std::path::Path;
 use kapi::*;
 
 /// perform some action based on command line switches.
@@ -23,10 +24,12 @@ fn main() {
 
   let args = CliOptions::from_args();
 
-  let config_file = args.config_path;
+  let props_file = args.config_path;
+
+  assert!(Path::new(&props_file).exists());
       
   if args.open_trades {
-    let props = load_config_props(config_file.clone());  
+    let props = load_config_props(props_file.clone());  
     let response = get_open_orders(&props.unwrap());
     match response {
       Ok(result) => println!("Obtained {:?} response from open trade endpoint", result),
@@ -35,7 +38,7 @@ fn main() {
   }
   
   if args.stime {
-    let props = load_config_props(config_file.clone()).unwrap();  
+    let props = load_config_props(props_file.clone()).unwrap();  
     let _time_endpoint = props.get("time-endpoint").unwrap();
 
     let response = get_time(_time_endpoint.to_string());
@@ -46,7 +49,7 @@ fn main() {
   }
 
   if args.pair {
-    let props = load_config_props(config_file.clone()).unwrap();  
+    let props = load_config_props(props_file.clone()).unwrap();  
     let _endpoint = props.get("ticker-endpoint").unwrap();
     let _pair = props.get("pair").unwrap();
     let response = get_ticker_info(_endpoint.to_string(), _pair.to_string());
