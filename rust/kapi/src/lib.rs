@@ -72,8 +72,7 @@ pub fn get_ticker_info(
   _query.insert_str(_query.len(), "?pair=");
   _query.insert_str(_query.len(), &pair);
 
-  let response: TickerInfoResponse = http_client().get(_query).send()?.json()?;
-  Ok(response)
+  Ok(http_client().get(_query).send()?.json()?)
 }
 
 pub fn validate_ticker_repsonse(ticker_info: &TickerInfoResponse) -> Result<String, &str> {
