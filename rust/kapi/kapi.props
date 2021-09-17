@@ -1,14 +1,33 @@
+#
+# Populate file with the properties required...
+#
+
+# this is the endpoint that returns server time-endpoint
 time-endpoint=https://<host-name>/0/public/Time
+
+# this is an example of a bad endpoint - note the name at the end - used in testing
 bad-time-endpoint=https://<host-name>/0/public/Times
 
+# this is the endpopint that supplies ticker info
 ticker-endpoint=https://<host-name>/0/public/Ticker
+
+# and this is a valid pair to get ticker info for
 pair=XBTUSD
 
+# a bad ticker endpoint - used in testing
 bad-ticker-endpoint=https://<host-name>/0/public/Ticker
+# yep, an example of a stupid pair that will not be found
 bad-pair=XBTUS222D
 
+# these are the API keys provided by account creation
 api-key=********
 api-sec=********
+
+# the private base endpoint
 base-api-url=https://<host-name>
+
+# the context where the private endpoint lives
 open-orders-uri-path=/0/private/OpenOrders
+
+# ignore this as it's used during testing
 nonce=

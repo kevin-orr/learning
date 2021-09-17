@@ -44,7 +44,9 @@ pub fn load_config_props(
   };
 
   for line in _content.lines() {
-    if !line.is_empty() {
+    let ok_ignore_line = line.is_empty() || line.starts_with("#") || line.starts_with("-");
+
+    if !ok_ignore_line {
       let vec: Vec<&str> = line.split("=").collect();
       props.insert(String::from(vec[0]), String::from(vec[1]));
     }

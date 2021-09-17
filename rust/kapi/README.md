@@ -29,10 +29,10 @@ You can leave the `nonce` property as is - it's really only used during the `cuc
 
 You can run the app via:
 ```
-cargo run -- -t -o -p -f kapi.props 
+cargo run -- -c -t -o -p kapi.props 
 ```
-where `-t`, `-o` and `-p` are optional but `-f` is required and is the location of the props file.
-For example, running `cargo run -- -t -f kapi.props` will give
+where `-c`, `-t` and `-o` are optional but `-p` is required and is the location of the props file.
+For example, running `cargo run -- -c -p kapi.props` will give the following (assuming valid props):
 ```
 Server Time response: ServerTimeResponse { error: [], result: Some(ServerTime { unixtime: 1631828165, rfc1123: "Thu, 16 Sep 21 21:36:05 +0000" }) }
 

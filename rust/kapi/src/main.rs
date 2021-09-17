@@ -7,13 +7,13 @@ use kapi::*;
 #[structopt(name = "api test", about = "An cmd line app to make various api tests.")]
 struct CliOptions {
     /// get the time on server
-    #[structopt(short = "t", long = "server-time")]
+    #[structopt(short = "c", long = "clock-time")]
     stime: bool,
     /// get ticket info for a predefined pair
-    #[structopt(short = "p", long = "trade-pair")]
+    #[structopt(short = "t", long = "trade-pair")]
     pair: bool,
     /// path to file containing kapi props such as api keys/secrets
-    #[structopt(parse(from_os_str), short = "f", long = "file")]
+    #[structopt(parse(from_os_str), short = "p", long = "props")]
     config_path: std::path::PathBuf,
     /// get the open trades
     #[structopt(short = "o", long = "open-trades")]
