@@ -31,29 +31,28 @@ pub struct TickerInfoResponse {
   pub result: Option<HashMap<String, Value>>,
 }
 
-pub fn load_config_props(
-  path_to_config: std::path::PathBuf,
-) -> Result<HashMap<String, String>, Box<dyn std::error::Error>> {
-  let mut props = HashMap::new();
-  let _result = std::fs::read_to_string(&path_to_config);
-  let _content = match _result {
-    Ok(content) => content,
-    Err(error) => {
-      return Err(error.into());
-    }
+pub fn load_config_props(path_to_config: std::path::PathBuf) -> Result<HashMap<String, String>, Box<dyn std::error::Error>> {
+  match { std::fs::read_to_string(&path_to_config) } {
+    Ok(file_contents) => return Ok(parse_props_from_string(file_contents.to_string())),
+    Err(error)        => return Err(error.into()),
   };
+}
 
-  for line in _content.lines() {
-    let ok_ignore_line = line.is_empty() || line.starts_with("#") || line.starts_with("-");
+fn parse_props_from_string(file_contents: String) -> HashMap<String, String> {
+  
+  let mut _props = HashMap::new();
+  
+  for line in file_contents.lines() {
+    let ok_ignore_line = line.trim().is_empty() || line.starts_with("#") || line.starts_with("-");
 
     if !ok_ignore_line {
-      let vec: Vec<&str> = line.split("=").collect();
-      props.insert(String::from(vec[0]), String::from(vec[1]));
+      let prop_parts: Vec<&str> = line.split("=").collect();
+      _props.insert(String::from(prop_parts[0]), String::from(prop_parts[1]));
     }
   }
-
-  Ok(props)
+  _props
 }
+
 
 pub fn http_client() -> Client {
   Client::new()
