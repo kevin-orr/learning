@@ -60,9 +60,7 @@ pub fn http_client() -> Client {
 }
 
 pub fn get_time(endpoint: String) -> Result<ServerTimeResponse, Box<dyn std::error::Error>> {
-  let http_client = http_client();
-
-  let response: ServerTimeResponse = http_client.get(endpoint).send()?.json()?;
+  let response: ServerTimeResponse = http_client().get(endpoint).send()?.json()?;
   Ok(response)
 }
 
@@ -70,14 +68,12 @@ pub fn get_ticker_info(
   endpoint: String,
   pair: String,
 ) -> Result<TickerInfoResponse, Box<dyn std::error::Error>> {
-  let client = http_client();
-
   let mut _query = endpoint.clone();
 
   _query.insert_str(_query.len(), "?pair=");
   _query.insert_str(_query.len(), &pair);
 
-  let response: TickerInfoResponse = client.get(_query).send()?.json()?;
+  let response: TickerInfoResponse = http_client().get(_query).send()?.json()?;
   Ok(response)
 }
 
@@ -126,8 +122,7 @@ pub fn validate_ticker_repsonse(ticker_info: &TickerInfoResponse) -> Result<Stri
 pub fn get_open_orders(
   props: &HashMap<String, String>,
 ) -> Result<String, Box<dyn std::error::Error>> {
-  let _client = http_client();
-
+  
   let _base_api_url = props.get("base-api-url").unwrap();
   let _api_key = props.get("api-key").unwrap();
   let _api_sec = props.get("api-sec").unwrap();
@@ -138,7 +133,7 @@ pub fn get_open_orders(
   // generate the nonce and signature pair
   let (_nonce, _signature_base64) = gen_signature(props);
 
-  let _result = _client
+  let _result = http_client()
     .post(_query.clone())
     .header("API-Key", _api_key)
     .header("API-Sign", _signature_base64)
