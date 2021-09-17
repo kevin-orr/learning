@@ -135,7 +135,6 @@ pub fn get_open_orders(
     .post(_query.clone())
     .header("API-Key", _api_key)
     .header("API-Sign", _signature_base64)
-    // .json(&map)
     .form(&[("nonce", _nonce), ("trades", "true".to_string())])
     .send();
   //
