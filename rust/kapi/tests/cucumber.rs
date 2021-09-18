@@ -1,3 +1,5 @@
+#![cfg_attr(debug_assertions, allow(dead_code, unused_imports))]
+
 #[path = "../src/lib.rs"]
 mod lib;
 

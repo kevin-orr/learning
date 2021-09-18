@@ -204,7 +204,10 @@ pub fn gen_signature(props: &HashMap<String, String>) -> (String, String) {
   (_nonce, _base64)
 }
 
+/// generates a nonce but as it's based on system time we put a small delay to make sure we get a unique value each time
 pub fn gen_nonce() -> u64 {
+  std::thread::sleep(std::time::Duration::from_millis(1030));
+
   SystemTime::now()
     .duration_since(UNIX_EPOCH)
     .unwrap()
@@ -220,4 +223,16 @@ pub fn gen_sha_256(input: String) -> Vec<u8> {
 
 pub fn gen_sha_512(input: Vec<u8>, secret: Vec<u8>) -> Vec<u8> {
   HMAC::mac(&input, &secret).to_vec()
+}
+
+#[cfg(test)]
+mod tests {
+
+  #[test]
+  fn expect_diff_nonce() {
+    
+    let nonce1 = crate::gen_nonce();
+    let nonce2 = crate::gen_nonce();
+    assert_ne!(nonce1, nonce2);
+  }
 }
