@@ -38,6 +38,11 @@ Server Time response: ServerTimeResponse { error: [], result: Some(ServerTime { 
 
 ```
 
+The `Dockerfile` pulls down the latet `rust` tool chain and performs a `build`. You can run it interactively to run tests - you need to supply valid props for the `kapi.props` file though:
+```
+docker container run --interactive --tty kapi
+```
+
 ## Notes
 - To run the cumber tests: `cargo test --test cucumber`
 - Went with `blocking` version of the http client - didn't really see the need to do `async` calls for this app/test.
